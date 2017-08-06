@@ -21,7 +21,7 @@ Just drop **cxxprops.h** into your project.
 The input is any stream. In this example, we're reading
 from a file:
 
-```
+```c++
 cxxprops::Properties props;
 
 std::ifstream prop("my.config");
@@ -30,7 +30,7 @@ props.parse(prop);
 
 ### Reading properties
 
-```
+```c++
 // Read the server host
 std::string host = prop.get("server.host");
 
@@ -40,7 +40,7 @@ std::string host = prop.get("server.host", "localhost);
 
 Special support is provided for reading boolean values (true, 1 or yes)
 
-```
+```c++
 if (prop.get_bool("server.log.trace", false)) {
     ...
 }
@@ -51,19 +51,19 @@ still *exists*. Hence, it is usually better to call props.get and
 verify the value. One exception is using the presence of
 keys to indicate flags, which is a valid design in certain use cases.
 
-```
+```c++
 props.hasKey("settings.debug");
 ```
 
 ### Setting and removing properties
 
-```
-# If the property doesn't exist, it will be created
+```c++
+// If the property doesn't exist, it will be created
 props.put("bind", "127.0.0.1");
 
-# A multi-line property. When rendered to a file, the newlines
-# are replaced with \ as explained in the property file examples
-# below.
+// A multi-line property. When rendered to a file, the newlines
+// are replaced with \ as explained in the property file examples
+// below.
 props.put("multiline", "this takes \nmultiple \nlines");
 ```
 
@@ -81,15 +81,17 @@ props.remove("bind");
 
 ### Get all keys and values:
 
-```
+```c++
 std::cout << "Keys:" << std::endl;
 for (const auto& key : props.keys())
     std::cout << key << ",";
+
 std::cout << std::endl;
 
 std::cout << "Values:" << std::endl;
 for (const auto& val : props.values())
     std::cout << val << ",";
+
 std::cout << std::endl;
 }
 ```
@@ -99,7 +101,7 @@ std::cout << std::endl;
 After adding, updating or removing properties, text() is called to
 render the properties as text. This string can then be saved to a file.
 
-```
+```c++
 std::string properties = props.text();
 
 // Save to file using ofstream or whatever you'd like
@@ -110,7 +112,7 @@ By default, formatting and whitespaces are preserved.
 
 Alternatively, pretty printing can be forced by passing *true* to text()
 
-```
+```c++
 std::string properties = props.text(true);
 ```
 

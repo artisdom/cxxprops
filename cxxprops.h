@@ -244,7 +244,7 @@ public:
     /**
      * @return true if the key exists
      */
-    bool hasKey(std::string key)
+    bool hasKey(const std::string& key) const
     {
         return props.find(key) != props.end();
     }
@@ -257,7 +257,7 @@ public:
      * @param key Property key
      * @return Property value, or an empty string if the key doesn't exists.
      */
-    inline std::string get(std::string key)
+    inline std::string get(const std::string& key) const
     {
         std::string res = "";
 
@@ -268,12 +268,19 @@ public:
         return res;
     }
 
-    inline std::string get(std::string key, std::string defaultValue)
+    inline std::string get(std::string key, std::string defaultValue) const
     {
         return hasKey(key) ? get(key) : defaultValue;
     }
 
-    inline bool get_bool(std::string key, bool defaultValue)
+    /**
+     * Returns true if the value is "true", "1" or "yes"
+     *
+     * @param key Property key
+     * @param defaultValue Default value if the key doesn't exist
+     * @return Property value, or an empty string if the key doesn't exists.
+     */
+    inline bool getBool(const std::string& key, bool defaultValue)
     {
         if (hasKey(key))
         {
@@ -293,7 +300,7 @@ public:
      * @param value New property value
      * @return The old key, if any
      */
-    inline std::string put(std::string key, std::string value)
+    inline std::string put(const std::string& key, const std::string& value)
     {
         std::string old = "";
 
@@ -329,7 +336,7 @@ public:
      *
      * @param key Property key
      */
-    inline void remove(std::string key)
+    inline void remove(const std::string& key)
     {
         auto match = props.find(key);
         if (match != props.end())
@@ -350,7 +357,7 @@ public:
      *
      * @param comment Comment. If the leading # or ! is missing, it will be added
      */
-    inline void putComment(std::string comment)
+    inline void putComment(const std::string& comment)
     {
         std::string line = trim(comment);
 
@@ -706,9 +713,7 @@ private:
      */
     inline std::string join(std::vector<std::string>& vs, std::string sep, bool append=false)
     {
-        if (vs.size() == 0)
-            return "";
-        else
+        if (!vs.empty())
         {
             std::string str = std::accumulate(std::next(vs.begin()), vs.end(), vs[0],
                                             [&](std::string a, std::string b)
@@ -719,6 +724,8 @@ private:
 
             return str;
         }
+
+        return "";
     }
 
     inline bool isTemplateVariable(const std::string& str)

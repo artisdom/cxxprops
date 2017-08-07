@@ -41,7 +41,7 @@ std::string host = prop.get("server.host", "localhost);
 Special support is provided for reading boolean values (true, 1 or yes)
 
 ```c++
-if (prop.get_bool("server.log.trace", false)) {
+if (prop.getBool("server.log.trace", false)) {
     ...
 }
 ```
@@ -172,7 +172,7 @@ key2
 
 ### Boolean values
 ```
-# The API supports "get_bool" which returns true if a value
+# The API supports "getBool" which returns true if a value
 # contains "true", "yes" or "1", otherwise false is returned.
 # You can still treat the property as a string
 production = true

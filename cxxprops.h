@@ -74,13 +74,13 @@ public:
             else if (isBlockStart(line))
             {
                 lineEntry.linetype = LineType::BlockStart;
-                if (prefix.size() > 0)
+                if (!prefix.empty())
                     prefixStack.push_back(prefix);
             }
             else if (isBlockEnd(line))
             {
                 lineEntry.linetype = LineType::BlockEnd;
-                if (prefixStack.size() > 0)
+                if (!prefixStack.empty())
                     prefixStack.pop_back();
             }
             else
@@ -235,7 +235,7 @@ public:
      */
     std::string prependPrefix(const std::string& key)
     {
-        if (prefixStack.size() > 0)
+        if (!prefixStack.empty())
             return join(prefixStack, ".", true) + key;
         else
             return key;
@@ -361,7 +361,7 @@ public:
     {
         std::string line = trim(comment);
 
-        if (line.size() > 0)
+        if (!line.empty())
         {
             if (line[0] != '#' && line[0] != '!')
                 line.insert(0, "# ");
@@ -451,7 +451,7 @@ public:
 
                             ss << entry.bareKey;
 
-                            if (match->second->value.size() > 0)
+                            if (!match->second->value.empty())
                                 ss << " = " << escape(match->second->value);
                         }
                         else
@@ -719,7 +719,7 @@ private:
                                             [&](std::string a, std::string b)
                                             { return a + sep + b; });
 
-            if (append && str.size() > 0)
+            if (append && !str.empty())
                 str += sep;
 
             return str;
